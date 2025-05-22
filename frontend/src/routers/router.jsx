@@ -36,10 +36,13 @@ import CheckoutPage from "../pages/books/CheckoutPage";
         {
           path: "/cart",
           element: <CartPage/>
+<<<<<<< HEAD
         },
         {
           path: '/checkout',
           element: <CheckoutPage/>
+=======
+>>>>>>> ad21360 (added add to cart and cart cart page)
         }
       ]
     },
