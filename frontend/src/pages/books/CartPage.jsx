@@ -1,12 +1,19 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
-import { clearCartItems } from "../../redux/features/cart/cartSlice";
+import {
+  clearCartItems,
+  removeFromCart,
+} from "../../redux/features/cart/cartSlice";
 import { getImgUrl } from "../../utils/getImgUrl";
 const CartPage = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const handleClearCart = () => dispatch(clearCartItems());
+  const handleRemoveProduct = (product) => dispatch(removeFromCart(product));
+  const totalPrice = cartItems
+    .reduce((acc, item) => acc + item.newPrice, 0)
+    .toFixed(2);
   return (
     <div className="flex mt-12 h-full flex-col overflow-hidden bg-white shadow-xl">
       <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -41,7 +48,9 @@ const CartPage = () => {
                       <div>
                         <div className="flex flex-wrap justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <Link to={`/books/${product?._id}`}>{product?.title}</Link>
+                            <Link to={`/books/${product?._id}`}>
+                              {product?.title}
+                            </Link>
                           </h3>
                           <p className="sm:ml-4">${product?.newPrice}</p>
                         </div>
@@ -57,6 +66,7 @@ const CartPage = () => {
                         <div className="flex">
                           <button
                             type="button"
+                            onClick={() => handleRemoveProduct(product)}
                             className="font-medium text-indigo-600 hover:text-indigo-500"
                           >
                             Remove
@@ -68,7 +78,7 @@ const CartPage = () => {
                 ))}
               </ul>
             ) : (
-              <p>No Items in the Cart!</p>
+              <p>No Products in the Cart!</p>
             )}
           </div>
         </div>
@@ -77,7 +87,7 @@ const CartPage = () => {
       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
         <div className="flex justify-between text-base font-medium text-gray-900">
           <p>Subtotal</p>
-          <p>$0</p>
+          <p>${totalPrice ? totalPrice : 0}</p>
         </div>
         <p className="mt-0.5 text-sm text-gray-500">
           Shipping and taxes calculated at checkout.
