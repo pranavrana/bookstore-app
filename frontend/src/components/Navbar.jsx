@@ -6,6 +6,7 @@ import { HiOutlineUser } from "react-icons/hi";
 import { HiOutlineHeart } from "react-icons/hi";
 import avtarImg from "../assets/avatar.png"
 import { useSelector } from 'react-redux';
+import { useAuth } from '../AuthContext';
 
 const navigation = [
   {name: 'Dashboard', href:"/dashboard"},
@@ -16,7 +17,11 @@ const navigation = [
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const cartItems = useSelector(state => state.cart.cartItems);
-  const currentUser = true;
+  const {currentUser, logout} = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  }
   return (
     <header className='max-w-screen-2xl mx-auto px-4 py-6'>
         <nav className='flex justify-between items-center'>
@@ -35,7 +40,7 @@ export const Navbar = () => {
                 {
                 currentUser ? <>
                 <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                  <img src={avtarImg} alt="" className={`size-7 rounded-full ${currentUser ? 'ring-2 ring-blue-500' : ''}`}/>
+                  <img src={currentUser.photoURL} alt="" className={`size-7 rounded-full ${currentUser ? 'ring-2 ring-blue-500' : ''}`}/>
                 </button>
                 {
                   isDropdownOpen && (
@@ -44,6 +49,7 @@ export const Navbar = () => {
                         {
                           navigation.map((item) => (<li key={item.name}onClick={() => setIsDropdownOpen(false)}><Link to={item.href} className='block px-4 py-2 text-sm hover:bg-gray-100'>{item.name}</Link></li>))
                         }
+                        <li><button className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-100' onClick={handleLogout}>Logout</button></li>
                       </ul>
                     </div>
                   )

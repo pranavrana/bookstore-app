@@ -15,8 +15,14 @@ app.use(
   })
 );
 const bookRoutes = require("./src/books/book.route");
+const orderRoutes = require("./src/orders/order.route");
+const userRoutes = require("./src/users/user.route");
+const AdminRoutes = require("./src/stats/admin.stats");
 // routes
 app.use("/api/books", bookRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/auth", userRoutes)
+app.use("/api/admin", AdminRoutes)
 // username: pranavrana1258
 // password: YolA09dZbtVLdDWi
 async function main() {

@@ -1,22 +1,39 @@
 import React, { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
   const [message, setMessage] = useState("");
-
+  const { loginUser, googleSignIn } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await loginUser(data.email, data.password);
+      alert("Login Successful!");
+      navigate("/");
+    } catch (error) {
+      setMessage("Please enter valid email and password!");
+      console.log(error);
+    }
+  };
 
-  const handleGoogleSignIn = () => {
-    
-  }
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+      alert("Login Successful!");
+      navigate("/");
+    } catch (error) {
+      alert("Google sign in failed!");
+      console.log(error);
+    }
+  };
   return (
     <div className="h-[calc(100vh-120px)] flex justify-center items-center">
       <div className="w-full max-w-sm mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -72,9 +89,10 @@ const Login = () => {
           </Link>
         </p>
         <div className="mt-4">
-          <button 
-          onClick={handleGoogleSignIn}
-          className="w-full flex flex-wrap gap-1 items-center justify-center bg-secondary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full flex flex-wrap gap-1 items-center justify-center bg-secondary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+          >
             <FaGoogle className="mr-2" />
             Sign in with Google
           </button>

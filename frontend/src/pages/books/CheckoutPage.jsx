@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../../AuthContext";
+import { useCreateOrderMutation } from "../../redux/features/orders/ordersApi";
+import Swal from "sweetalert2";
 
 const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = cartItems
     .reduce((acc, item) => acc + item.newPrice, 0)
     .toFixed(2);
-  const currentUser = true;
+  const { currentUser } = useAuth();
+  const [ createOrder, {isLoading, error }] = useCreateOrderMutation();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,22 +23,38 @@ const CheckoutPage = () => {
   } = useForm();
 
   const [isChecked, setIsChecked] = useState(false);
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newOrder = {
-        name: data.name,
-        email: currentUser?.email,
-        address: {
-            city: data.city,
-            country: data.country,
-            state: data.state,
-            zipcode: data.zipcode
-        },
-        phone: data.phone,
-        productIds: cartItems.map(item => item?._id),
-        totalPrice
+      name: data.name,
+      email: currentUser?.email,
+      address: {
+        city: data.city,
+        country: data.country,
+        state: data.state,
+        zipcode: data.zipcode,
+      },
+      phone: data.phone,
+      productIds: cartItems.map((item) => item?._id),
+      totalPrice,
+    };
+    try {
+      await createOrder(newOrder).unwrap();
+      Swal.fire({
+        title: "Confirmed Order",
+        text: "Your has been order placed successfully",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, it's okay"
+      });
+      navigate("/orders");
+    } catch (error) {
+      console.log("Error placing an order", error);
+      alert("Error placing an order");
     }
-    console.log(newOrder)
   };
+  if (isLoading) return <div>Loading...</div>;
   return (
     <section>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
