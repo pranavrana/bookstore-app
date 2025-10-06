@@ -8,7 +8,7 @@ import Register from "../components/Register";
 import CartPage from "../pages/books/CartPage";
 import CheckoutPage from "../pages/books/CheckoutPage";
 import SingleBook from "../pages/books/SingleBook";
-import PrivateRoute from "./privateRoute";
+import PrivateRoute from "./PrivateRoute";
 import OrderPage from "../pages/books/OrderPage";
 import AdminRoute from "./AdminRoute";
 import AdminLogin from "../components/AdminLogin";
