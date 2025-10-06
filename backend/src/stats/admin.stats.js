@@ -5,7 +5,7 @@ const Book = require("../books/book.model");
 const router = express.Router();
 
 // Function to calculate admin stats
-router.get("/dashboard", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // 1. Total number of orders
     const totalOrders = await Order.countDocuments();

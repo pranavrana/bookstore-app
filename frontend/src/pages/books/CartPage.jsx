@@ -5,7 +5,6 @@ import {
   clearCartItems,
   removeFromCart,
 } from "../../redux/features/cart/cartSlice";
-import { getImgUrl } from "../../utils/getImgUrl";
 const CartPage = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -39,7 +38,7 @@ const CartPage = () => {
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
                         alt=""
-                        src={getImgUrl(product?.coverImage)}
+                        src={getBaseUrl()+product?.coverImage}
                         className="h-full w-full object-cover object-center"
                       />
                     </div>

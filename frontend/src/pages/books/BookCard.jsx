@@ -1,9 +1,9 @@
 import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
-import { getImgUrl } from "../../utils/getImgUrl";
 import { Link } from 'react-router'
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/features/cart/cartSlice";
+import getBaseUrl from "../../utils/baseUrl";
 const BookCard = ({book}) => {
   const dispatch = useDispatch();
   const handleAddToCart = (product) => {
@@ -15,7 +15,7 @@ const BookCard = ({book}) => {
         <div className="sm:h-72 sm:flex-shrink-0 border rounded-md">
         <Link  to={`/books/${book._id}`}>
             <img
-              src={`${getImgUrl(book?.coverImage)}`}
+              src={getBaseUrl()+book?.coverImage}
               alt=""
               className="w-full bg-cover p-2 rounded-md cursor-pointer hover:scale-105 transition-all duration-200"
             />

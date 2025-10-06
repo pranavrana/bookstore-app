@@ -1,10 +1,10 @@
 import React from "react";
-import { getImgUrl } from "../../utils/getImgUrl";
 import { useParams } from "react-router";
 import { useFetchBookByIdQuery } from "../../redux/features/books/booksApi";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import { FiShoppingCart } from "react-icons/fi";
+import getBaseUrl from "../../utils/baseUrl";
 
 const SingleBook = () => {
   const { id } = useParams();
@@ -23,7 +23,7 @@ const SingleBook = () => {
       <div className="">
         <div>
           <img
-            src={`${getImgUrl(book.coverImage)}`}
+            src={getBaseUrl()+book?.coverImage}
             alt={book.title}
             className="mb-8"
           />
