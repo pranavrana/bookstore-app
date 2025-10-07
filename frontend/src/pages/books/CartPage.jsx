@@ -5,6 +5,7 @@ import {
   clearCartItems,
   removeFromCart,
 } from "../../redux/features/cart/cartSlice";
+import getBaseUrl from "../../utils/baseUrl";
 const CartPage = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
